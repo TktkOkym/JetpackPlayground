@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'com.android.example.github.testing.OpenClass'
+}
+
+android {
+    compileSdkVersion 28
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "com.project.taewon.jetpackplayground"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 1
+        versionName "0.0.1"
+        vectorDrawables.useSupportLibrary true
+        multiDexEnabled true
+    }
+    buildTypes {
+        debug {
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "android.arch.navigation:navigation-fragment:$rootProject.navigationVersion"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "android.arch.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.supportLibraryVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.supportLibraryVersion"
+    implementation "com.google.android.material:material:$rootProject.materiaDesignlVersion"
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlinVersion"
+
+    //3rd Party Library
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    //TODO: latest version is not compatible with kotlin 1.31.1 & gradle 5.1.1 (https://github.com/google/dagger/issues/1478)
+    //noinspection GradleDependency
+    implementation "com.google.dagger:dagger-android:$rootProject.daggerAndroidVersion"
+    //noinspection GradleDependency
+    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerAndroidVersion"
+
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "androidx.test:core:$rootProject.test_core"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.core_testing"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito_core"
+    androidTestImplementation "com.android.support.test:rules:$rootProject.android_support_test"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.android_support_test"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.uiAutomatorVersion"
+}
